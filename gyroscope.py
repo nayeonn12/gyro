@@ -31,14 +31,16 @@ def on_message(client, userdata, msg):
     topic = msg.topic
     payload = json.loads(msg.payload.decode('utf-8'))
 
-    acx = Decimal(str(payload.get('acx')))
-    acy = Decimal(str(payload.get('acy')))
-    acz = Decimal(str(payload.get('acz')))
-    gx = Decimal(str(payload.get('gx')))
-    gy = Decimal(str(payload.get('gy')))
-    gz = Decimal(str(payload.get('gz')))
+    acx = Decimal(str(payload.get('accel_x')))
+    acy = Decimal(str(payload.get('accel_y')))
+    acz = Decimal(str(payload.get('accel_z')))
+    gx = Decimal(str(payload.get('gyro_x')))
+    gy = Decimal(str(payload.get('gyro_y')))
+    gz = Decimal(str(payload.get('gyro_z')))
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    print(timestamp)
+
     file_name = f'{topic}/{timestamp}.json'
 
     s3_client = boto3.client('s3', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key,
@@ -49,7 +51,9 @@ def on_message(client, userdata, msg):
     dynamodb = boto3.resource('dynamodb', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key,
                               aws_session_token=aws_session_token, region_name=dynamodb_region)
     table = dynamodb.Table(dynamodb_table)
-    payload['timestamp'] = timestamp
+
+    item = {}
+    item['timestamp'] = timestamp
     # payload['humidity'] = humidity
     # payload['temperature'] = temperature
     payload['accel_x'] = acx
@@ -58,7 +62,8 @@ def on_message(client, userdata, msg):
     payload['gyro_x'] = gx
     payload['gyro_y'] = gy
     payload['gyro_z'] = gz
-    table.put_item(Item=payload)
+    print(item)
+    table.put_item(Item=item)
 
 
 client = mqtt.Client()
