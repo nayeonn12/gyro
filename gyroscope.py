@@ -53,7 +53,7 @@ def on_message(client, userdata, msg):
     table = dynamodb.Table(dynamodb_table)
 
     item = {}
-    item['timestamp'] = timestamp
+    payload['timestamp'] = timestamp
     # payload['humidity'] = humidity
     # payload['temperature'] = temperature
     payload['accel_x'] = acx
@@ -63,7 +63,7 @@ def on_message(client, userdata, msg):
     payload['gyro_y'] = gy
     payload['gyro_z'] = gz
     print(item)
-    table.put_item(Item=item)
+    table.put_item(Item=payload)
 
 
 client = mqtt.Client()
