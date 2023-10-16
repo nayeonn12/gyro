@@ -31,6 +31,8 @@ def on_message(client, userdata, msg):
     topic = msg.topic
     payload = json.loads(msg.payload.decode('utf-8'))
 
+    kelembaban = Decimal(str(payload.get('humidity')))
+    temp = Decimal(str(payload.get('temperature')))
     acx = Decimal(str(payload.get('accel_x')))
     acy = Decimal(str(payload.get('accel_y')))
     acz = Decimal(str(payload.get('accel_z')))
@@ -54,8 +56,8 @@ def on_message(client, userdata, msg):
 
     item = {}
     item['timestamp'] = timestamp
-    # payload['humidity'] = humidity
-    # payload['temperature'] = temperature
+    item['humidity'] = kelembaban
+    item['temperature'] = temp
     item['accel_x'] = acx
     item['accel_y'] = acy
     item['accel_z'] = acz
