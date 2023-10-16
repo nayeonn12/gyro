@@ -5,7 +5,6 @@ from datetime import datetime
 from decimal import Decimal
 from dotenv import load_dotenv
 import os
-import logging
 
 load_dotenv()  # Memuat nilai-nilai dari berkas .env ke dalam lingkungan
 
@@ -26,7 +25,6 @@ mqtt_password = os.getenv('MQTT_PASSWORD')
 def on_connect(client, userdata, flags, rc):
     print('Terhubung dengan broker MQTT')
     client.subscribe(mqtt_topic)
-    logging.warning('terhubung dengan broker')
 
 
 def on_message(client, userdata, msg):
