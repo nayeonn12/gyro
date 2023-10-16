@@ -67,7 +67,6 @@ def on_message(client, userdata, msg):
     item['gyro_y'] = gy
     item['gyro_z'] = gz
     print(item)
-    logging.warning('item')
     table.put_item(Item=item)
 
 
