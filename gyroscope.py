@@ -32,7 +32,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     topic = msg.topic
     payload = json.loads(msg.payload.decode('utf-8'))
-
+    print(payload)
     kelembaban = Decimal(str(payload.get('humidity')))
     temp = Decimal(str(payload.get('temperature')))
     acx = Decimal(str(payload.get('accel_x')))
